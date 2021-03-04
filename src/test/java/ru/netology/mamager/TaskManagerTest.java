@@ -63,35 +63,45 @@ public class TaskManagerTest {
 
         @Test
         public void shouldGetLabel() {
-            Collection<Task> expected = manager.filterByLabel("one");
+            Collection<Task> actual = manager.filterByLabel("one");
+            Collection<Task> expected = List.of(first, second, third, forth, fifth);
 
-            System.out.println(expected);
+            assertEquals(expected, actual);
+
+            System.out.println(actual);
 
         }
 
         @Test
         public void shouldGetSomeLabel() {
-            Collection<Task> expected = manager.filterByLabel("one", "two");
+            Collection<Task> actual = manager.filterByLabel("one", "two");
+            Collection<Task> expected = List.of(first, second, third, fifth);
 
-            System.out.println(expected);
+            assertEquals(expected, actual);
+            System.out.println(actual);
 
         }
         @Test
         public void shouldGetNoneLabel() {
-            Collection<Task> expected = manager.filterByLabel("one", "three", "five");
+            Collection<Task> actual = manager.filterByLabel("one", "three", "five");
+            Collection<Task> expected = List.of();
 
-            System.out.println(expected);
+            assertEquals(expected, actual);
+
+            System.out.println(actual);
 
         }
 
         @Test
         public void shouldGetOneItemWithLabels() {
-            Collection<Task> expected = manager.filterByLabel("five", "one", "two", "four");
+            Collection<Task> actual = manager.filterByLabel("five", "one", "two", "four");
+            Collection<Task> expected = List.of(fifth);
 
-            System.out.println(expected);
+            assertEquals(expected, actual);
+
+            System.out.println(actual);
 
         }
-
 
     }
 }

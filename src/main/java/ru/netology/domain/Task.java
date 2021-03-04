@@ -11,11 +11,16 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Task {
+public class Task implements Comparable<Task> {
     private int id;
     private String name;
     private String author;
     private Set<String> assignee;
     private Set<String> label;
     private boolean open;
+
+    @Override
+    public int compareTo(Task o) {
+        return id - o.id;
+    }
 }

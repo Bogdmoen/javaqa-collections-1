@@ -53,17 +53,18 @@ public class TaskManager {
     public Collection<Task> filterByLabel(String... queries) {
         Set<String> querySet = new HashSet<>(Arrays.asList(queries));
         int requestCount = querySet.size();
-        Set<Task> result = new HashSet<>();
+        Set<Task> tmp = new HashSet<>();
+        List<Task> result;
 
         for (Task item : getAll()) {
             if (item.getLabel().size() < querySet.size()) {   // если размер массива запроса превышает размер массива поля обьекта - сравнения не происходит
                 continue;
             }
-            else if (item.getLabel().size() > querySet.size()) {
+            else  {
                 List<String> q = new ArrayList<>(querySet);
                 List<String> a = new ArrayList<>(item.getLabel());
                 String e = "";
-                if (q.size() < a.size()) {
+                while (q.size() < a.size()) {
                     q.add(e);
                 }
                 Collections.sort(q);
@@ -77,19 +78,12 @@ public class TaskManager {
                         }
                     }
                 if(i == requestCount) {
-                    result.add(item);
-                }
-            }
-            else if (item.getLabel().size() == querySet.size()) {   // если размер массива запроса равен размеру массива поля обьекта - происходит сравнение массивов
-                List<String> q = new ArrayList<>(querySet);
-                List<String> a = new ArrayList<>(item.getLabel());
-                Collections.sort(q);
-                Collections.sort(a);
-                if(q.equals(a)) {
-                    result.add(item);
+                    tmp.add(item);
                 }
             }
         }
+        result = new ArrayList<>(tmp);
+        Collections.sort(result);
         return result;
     }
 }
