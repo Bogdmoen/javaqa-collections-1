@@ -35,6 +35,38 @@ public class TaskManagerTest {
             assertEquals(expected, actual);
         }
 
+        @Test
+        public void shouldRemoveItem() {
+
+            manager.addTask(first);
+            manager.addTask(second);
+            manager.addTask(third);
+            manager.addTask(forth);
+            manager.addTask(fifth);
+            manager.removeTask(5);
+
+            Collection<Task> actual = manager.getAll();
+            Collection<Task> expected = List.of(first, second, third, forth);
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        public void shouldNotRemoveItem() {
+
+            manager.addTask(first);
+            manager.addTask(second);
+            manager.addTask(third);
+            manager.addTask(forth);
+            manager.addTask(fifth);
+            manager.removeTask(10);
+
+            Collection<Task> actual = manager.getAll();
+            Collection<Task> expected = List.of(first, second, third, forth, fifth);
+
+            assertEquals(expected, actual);
+        }
+
 
     }
 
