@@ -27,7 +27,6 @@ public class TaskManager {
     }
 
     public void ChangeStatus(int id) {
-        getAll().stream().anyMatch((i) -> i.getId() == id);
 
         for (Task item : getAll()) {
             if (item.getId() == id && item.isOpen())
@@ -43,22 +42,24 @@ public class TaskManager {
     }
 
     public Collection<Task> getOpenTasks() {
-        Collection<Task> result = new ArrayList<>();
+        List<Task> result = new ArrayList<>();
         for (Task item : getAll()) {
             if (item.isOpen()) {
                 result.add(item);
             }
         }
+        Collections.sort(result);
         return result;
     }
 
     public Collection<Task> getClosedTasks() {
-        Collection<Task> result = new ArrayList<>();
+        List<Task> result = new ArrayList<>();
         for (Task item : getAll()) {
             if (!item.isOpen()) {
                 result.add(item);
             }
         }
+        Collections.sort(result);
         return result;
     }
 
