@@ -7,16 +7,17 @@ import ru.netology.domain.Task;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TaskManagerTest {
     TaskManager manager = new TaskManager();
-    Task first = new Task(1, "Task1", 54, 41, "label1", true);
-    Task second = new Task(2, "Task2", 55, 44, "label1", false);
-    Task third = new Task(3, "Task3", 51, 41, "label5", true);
-    Task forth = new Task(4, "Task4", 52, 44, "label5", true);
-    Task fifth = new Task(5, "Task5", 59, 42, "label1", false);
+    Task first = new Task(1, "Task1", "mike", Set.of("ann", "jim", "david", "kate"), Set.of("test"), true);
+    Task second = new Task(2, "Task2", "ann", Set.of("john", "jim"), Set.of("test"), false);
+    Task third = new Task(3, "Task3", "jim", Set.of("john"), Set.of("test"), true);
+    Task forth = new Task(4, "Task4", "mike", Set.of("jim", "ann"), Set.of("test"), true);
+    Task fifth = new Task(5, "Task5", "ann", Set.of("mike", "ann", "jim"), Set.of("test"), false);
 
     @Nested
     public class addRemove {
@@ -60,6 +61,37 @@ public class TaskManagerTest {
             assertEquals(expected, actual);
         }
 
-    }
+        @Test
+        public void shouldGetAssignee() {
+            Collection<Task> expected = manager.filterByAssignee("ann");
 
+            System.out.println(expected);
+
+        }
+
+        @Test
+        public void shouldGetSomeAssignee() {
+            Collection<Task> expected = manager.filterByAssignee("ann", "jim");
+
+            System.out.println(expected);
+
+        }
+        @Test
+        public void shouldGetNoneAssignee() {
+            Collection<Task> expected = manager.filterByAssignee("ann", "jim", "john");
+
+            System.out.println(expected);
+
+        }
+
+        @Test
+        public void shouldGetOneAssignee() {
+            Collection<Task> expected = manager.filterByAssignee("ann", "jim", "kate", "david");
+
+            System.out.println(expected);
+
+        }
+
+
+    }
 }

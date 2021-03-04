@@ -5,14 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Task {
-    int id;
-    String name;
-    int authorId;
-    int assigneeId;
-    String label;
-    boolean open;
+    private int id;
+    private String name;
+    private String author;
+    private Set<String> assignee;
+    private Set<String> label;
+    private boolean open;
 }

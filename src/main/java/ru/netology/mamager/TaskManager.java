@@ -3,11 +3,8 @@ package ru.netology.mamager;
 import ru.netology.domain.Task;
 import ru.netology.repository.TaskRepository;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Predicate;
+import java.util.*;
+
 
 public class TaskManager {
 
@@ -51,4 +48,47 @@ public class TaskManager {
         return result;
     }
 
+    public Collection<Task> filterByAssignee(String... queries) {
+
+        int requestCount = queries.length;
+        Set<String> querySet = new HashSet<>(Arrays.asList(queries));
+        Set<Task> result = new HashSet<>();
+        boolean isBreak = false;
+        int i = 0;
+        int length = 0;
+
+        for (Task item : getAll()) {
+
+            for (String query : querySet) {
+                Set<Task> tmp = new HashSet<>();
+                if(item.getAssignee().size() == queries.length) {
+                for (String n : item.getAssignee()) {
+                    boolean isEqual = n.equalsIgnoreCase(query);
+                    if (isEqual) {
+                        i++;
+                        tmp.add(item);
+                    }
+                    if (i == requestCount) {
+                        result.addAll(tmp);
+                        i = 0;
+                    }
+                }
+                }
+                else if(item.getAssignee().size() < queries.length) {
+                    isBreak = true;
+                }
+                else {
+                    for (String n : item.getAssignee()) {
+                        boolean isEqual = n.equalsIgnoreCase(query);
+                        if (isEqual) {
+                            result.add(item);
+                        }
+                    }
+                }
+                if (isBreak)
+                    break;
+            }
+        }
+        return result;
+    }
 }
