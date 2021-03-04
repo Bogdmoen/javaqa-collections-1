@@ -18,6 +18,8 @@ public class TaskManagerTest {
     Task third = new Task(3, "Task3", "jim", Set.of("john"), Set.of("five", "one", "two"), true);
     Task forth = new Task(4, "Task4", "mike", Set.of("jim", "ann"), Set.of("one"), true);
     Task fifth = new Task(5, "Task5", "ann", Set.of("mike", "ann", "jim"), Set.of("one", "two", "four", "five"), false);
+    Task sixth = new Task(25, "Task25", "john", Set.of("mike", "jim"), Set.of("one", "two", "double", "five"), false);
+    Task seventh = new Task(9, "Task9", "john", Set.of("peter"), Set.of("one", "two", "seven", "five"), false);
 
     @Nested
     public class addRemove {
@@ -34,7 +36,6 @@ public class TaskManagerTest {
         }
 
 
-
     }
 
     @Nested
@@ -46,19 +47,27 @@ public class TaskManagerTest {
 
         @Test
         public void shouldGetOpenTasks() {
-
             Collection<Task> actual = manager.getOpenTasks();
             Collection<Task> expected = List.of(first, third, forth);
 
             assertEquals(expected, actual);
         }
+
         @Test
         public void shouldGetClosedTasks() {
-
             Collection<Task> actual = manager.getClosedTasks();
             Collection<Task> expected = List.of(second, fifth);
 
             assertEquals(expected, actual);
+        }
+    }
+
+    @Nested
+    public class FilterLabel {
+
+        @BeforeEach
+        public void setUp() {
+            manager.addTasks(List.of(first, second, third, forth, fifth));
         }
 
         @Test
@@ -67,9 +76,7 @@ public class TaskManagerTest {
             Collection<Task> expected = List.of(first, second, third, forth, fifth);
 
             assertEquals(expected, actual);
-
             System.out.println(actual);
-
         }
 
         @Test
@@ -79,17 +86,15 @@ public class TaskManagerTest {
 
             assertEquals(expected, actual);
             System.out.println(actual);
-
         }
+
         @Test
         public void shouldGetNoneLabel() {
             Collection<Task> actual = manager.filterByLabel("one", "three", "five");
             Collection<Task> expected = List.of();
 
             assertEquals(expected, actual);
-
             System.out.println(actual);
-
         }
 
         @Test
@@ -98,10 +103,125 @@ public class TaskManagerTest {
             Collection<Task> expected = List.of(fifth);
 
             assertEquals(expected, actual);
-
             System.out.println(actual);
+        }
 
+        @Test
+        public void shouldGetNoeIssueWithLongQuery() {
+            Collection<Task> actual = manager.filterByLabel("five", "one", "two", "four", "six");
+            Collection<Task> expected = List.of();
+
+            assertEquals(expected, actual);
+            System.out.println(actual);
+        }
+    }
+
+    @Nested
+    public class FilterAuthor {
+
+        @BeforeEach
+        public void setUp() {
+            manager.addTasks(List.of(first, second, third, forth, fifth, sixth, seventh));
+        }
+
+        @Test
+        public void shouldReturnIssue() {
+
+            Collection<Task> actual = manager.filterByAuthor("Jim");
+            Collection<Task> expected = List.of(third);
+
+            assertEquals(expected, actual);
+
+        }
+
+        @Test
+        public void shouldReturnSeveralIssues() {
+            Collection<Task> actual = manager.filterByAuthor("john");
+            Collection<Task> expected = List.of(seventh, sixth);
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        public void shouldNotReturnIssue() {
+            Collection<Task> actual = manager.filterByAuthor("asdf");
+            Collection<Task> expected = List.of();
+
+            assertEquals(expected, actual);
+        }
+    }
+
+    @Nested
+    public class FilterAssignee {
+
+        @BeforeEach
+        public void setUp() {
+            manager.addTasks(List.of(first, second, third, forth, fifth, sixth, seventh));
+        }
+
+        @Test
+        public void shouldReturnOne() {
+
+            Collection<Task> actual = manager.filterByAssignee("peter");
+            Collection<Task> expected = List.of(seventh);
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        public void shouldReturnNone() {
+
+            Collection<Task> actual = manager.filterByAssignee("asdf");
+            Collection<Task> expected = List.of();
+
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        public void shouldReturnSeveral() {
+
+            Collection<Task> actual = manager.filterByAssignee("ann");
+            Collection<Task> expected = List.of(first, forth, fifth);
+
+            assertEquals(expected, actual);
+        }
+
+
+
+    }
+
+    @Nested
+    public class TaskStatus {
+        @BeforeEach
+        public void setUp() {
+            manager.addTasks(List.of(first, second, third, forth, fifth, sixth, seventh));
+        }
+
+        @Test
+        public void shouldCloseIssue() {
+
+            manager.ChangeStatus(1);
+
+            Boolean actual = first.isOpen();
+
+            assertFalse(actual);
+        }
+
+        @Test
+        public void shouldOpenIssue() {
+
+            manager.ChangeStatus(2);
+
+            Boolean actual = second.isOpen();
+
+            assertTrue(actual);
+        }
+
+        @Test
+        public void shouldNotChangeIssue() {
+            manager.ChangeStatus(50);
         }
 
     }
 }
+
