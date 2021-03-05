@@ -29,4 +29,16 @@ public class TaskRepositoryTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void shouldRemoveAll() {
+
+        repository.saveAll(List.of(first, second, third, forth, fifth));
+        repository.removeAll();
+
+        Collection<Task> actual = repository.getAll();
+        Collection<Task> expected = List.of();
+
+        assertEquals(expected, actual);
+    }
+
 }

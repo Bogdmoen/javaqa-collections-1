@@ -30,4 +30,11 @@ public class TaskRepository {
 
     }
 
+    public void removeAll() {
+        items.removeAll(items);
+
+    }
+
+
+
 }

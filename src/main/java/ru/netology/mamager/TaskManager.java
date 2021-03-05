@@ -9,9 +9,7 @@ import java.util.stream.Collectors;
 
 
 public class TaskManager {
-
     TaskRepository repository = new TaskRepository();
-
 
     public Collection<Task> getAll() {
         return repository.getAll();
@@ -31,7 +29,7 @@ public class TaskManager {
         for (Task item : getAll()) {
             if (item.getId() == id && item.isOpen())
                 item.setOpen(false);
-            else if(item.getId() == id && !item.isOpen()) {
+            else if (!item.isOpen()) {
                 item.setOpen(true);
             }
         }
@@ -68,9 +66,9 @@ public class TaskManager {
         int requestCount = querySet.size();
         Set<Task> tmp = new HashSet<>();
         List<Task> result;
-
         for (Task item : getAll()) {
-            if (item.getLabel().size() >= querySet.size()) {   // если размер массива запроса превышает размер массива поля обьекта - сравнения не происходит
+            // если размер массива запроса превышает или равен размеру массива поля обьекта - сравнения не происходит
+            if (item.getLabel().size() >= querySet.size()) {
                 List<String> q = new ArrayList<>(querySet);
                 List<String> a = new ArrayList<>(item.getLabel());
                 String e = "";
@@ -98,14 +96,12 @@ public class TaskManager {
     }
 
     public Collection<Task> filterByAuthor(String query) {
-
         return getAll().stream()
                 .filter(x -> x.getAuthor().equalsIgnoreCase(query))
                 .sorted().collect(Collectors.toList());
     }
 
     public Collection<Task> filterByAssignee(String query) {
-
         Set<Task> tmp = new HashSet<>();
         List<Task> result;
         for (Task item : getAll()) {

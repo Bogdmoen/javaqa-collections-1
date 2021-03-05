@@ -234,7 +234,7 @@ public class TaskManagerTest {
 
             manager.ChangeStatus(1);
 
-            Boolean actual = first.isOpen();
+            boolean actual = first.isOpen();
 
             assertFalse(actual);
         }
@@ -244,7 +244,7 @@ public class TaskManagerTest {
 
             manager.ChangeStatus(2);
 
-            Boolean actual = second.isOpen();
+            boolean actual = second.isOpen();
 
             assertTrue(actual);
         }
