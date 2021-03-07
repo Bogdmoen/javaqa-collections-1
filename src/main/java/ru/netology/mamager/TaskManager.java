@@ -24,7 +24,7 @@ public class TaskManager {
         repository.removeById(id);
     }
 
-    public void ChangeStatus(int id) {
+    public void changeStatus(int id) {
 
         for (Task item : getAll()) {
             if (item.getId() == id && item.isOpen())

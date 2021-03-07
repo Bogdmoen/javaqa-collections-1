@@ -66,8 +66,6 @@ public class TaskManagerTest {
 
             assertEquals(expected, actual);
         }
-
-
     }
 
     @Nested
@@ -217,9 +215,6 @@ public class TaskManagerTest {
 
             assertEquals(expected, actual);
         }
-
-
-
     }
 
     @Nested
@@ -232,7 +227,7 @@ public class TaskManagerTest {
         @Test
         public void shouldCloseIssue() {
 
-            manager.ChangeStatus(1);
+            manager.changeStatus(1);
 
             boolean actual = first.isOpen();
 
@@ -242,7 +237,7 @@ public class TaskManagerTest {
         @Test
         public void shouldOpenIssue() {
 
-            manager.ChangeStatus(2);
+            manager.changeStatus(2);
 
             boolean actual = second.isOpen();
 
@@ -251,7 +246,7 @@ public class TaskManagerTest {
 
         @Test
         public void shouldNotChangeIssue() {
-            manager.ChangeStatus(50);
+            manager.changeStatus(50);
         }
 
     }

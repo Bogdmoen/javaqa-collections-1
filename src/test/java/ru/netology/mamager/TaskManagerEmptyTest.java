@@ -37,8 +37,6 @@ public class TaskManagerEmptyTest {
 
             assertEquals(expected, actual);
         }
-
-
     }
 
     @Nested
@@ -64,7 +62,6 @@ public class TaskManagerEmptyTest {
     @Nested
     public class FilterLabel {
 
-
         @Test
         public void shouldGetNoneLabel() {
             Collection<Task> actual = manager.filterByLabel("one", "three", "five");
@@ -73,7 +70,6 @@ public class TaskManagerEmptyTest {
             assertEquals(expected, actual);
             System.out.println(actual);
         }
-
     }
 
     @Nested
@@ -98,7 +94,6 @@ public class TaskManagerEmptyTest {
 
             assertEquals(expected, actual);
         }
-
     }
 
     @Nested
@@ -106,7 +101,7 @@ public class TaskManagerEmptyTest {
 
         @Test
         public void shouldNotChangeIssue() {
-            manager.ChangeStatus(50);
+            manager.changeStatus(50);
         }
 
     }
