@@ -63,7 +63,6 @@ public class TaskManager {
 
     public Collection<Task> filterByLabel(String... queries) {
         Set<String> querySet = new HashSet<>(Arrays.asList(queries));
-        int requestCount = querySet.size();
         Set<Task> tmp = new HashSet<>();
         List<Task> result;
         for (Task item : getAll()) {
@@ -71,21 +70,13 @@ public class TaskManager {
             if (item.getLabel().size() >= querySet.size()) {
                 List<String> q = new ArrayList<>(querySet);
                 List<String> a = new ArrayList<>(item.getLabel());
-                String e = "";
-                while (q.size() < a.size()) {
-                    q.add(e);
-                }
                 Collections.sort(q);
-                Collections.sort(a);
-                int i = 0;
-                for (int j = 0; j < q.size(); j++) {
-                    for (int l = 0; l < q.size(); l++) {
-                        if (q.get(j).equals(a.get(l))) {
-                            i++;
-                        }
-                    }
-                }
-                if (i == requestCount) {
+                // сравниваем обьекты запроса и айтема, при совпадении складываем в переменную
+                List<String> matching = q.stream()
+                        .filter(o -> a.contains(o)).sorted().collect(Collectors.toList());
+                // сравниваем переменную с запросом, при совпадении, добавляем айтем в лист
+                boolean isEqual = q.equals(matching);
+                if (isEqual) {
                     tmp.add(item);
                 }
             }
