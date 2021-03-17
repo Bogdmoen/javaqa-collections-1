@@ -61,24 +61,29 @@ public class TaskManager {
         return result;
     }
 
-    public Collection<Task> filterByLabel(String... queries) {
+    // метод возвращает сутщности отфильтрованные по метке или или "assignee"
+    public Collection<Task> filterBy(String type, String... queries) {
         Set<String> querySet = new HashSet<>(Arrays.asList(queries));
         Set<Task> tmp = new HashSet<>();
         List<Task> result;
         for (Task item : getAll()) {
-            // если размер массива запроса превышает или равен размеру массива поля обьекта - сравнения не происходит
-            if (item.getLabel().size() >= querySet.size()) {
-                List<String> q = new ArrayList<>(querySet);
-                List<String> a = new ArrayList<>(item.getLabel());
-                Collections.sort(q);
-                // сравниваем обьекты запроса и айтема, при совпадении складываем в переменную
-                List<String> matching = q.stream()
-                        .filter(o -> a.contains(o)).sorted().collect(Collectors.toList());
-                // сравниваем переменную с запросом, при совпадении, добавляем айтем в лист
-                boolean isEqual = q.equals(matching);
-                if (isEqual) {
-                    tmp.add(item);
-                }
+            List<String> q = new ArrayList<>(querySet);
+            List<String> a = new ArrayList<>();
+            if (type.equalsIgnoreCase("label")) {
+                a = new ArrayList<>(item.getLabel());
+            } else if (type.equalsIgnoreCase("assignee")) {
+                a = new ArrayList<>(item.getAssignee());
+            }
+            Collections.sort(q);
+            Collections.sort(a);
+            // сравниваем обьекты запроса и айтема, при совпадении складываем в переменную
+            List<String> finalA = a;
+            List<String> matching = q.stream()
+                    .filter(o -> finalA.contains(o)).sorted().collect(Collectors.toList());
+            // сравниваем переменную с запросом, при совпадении, добавляем айтем в лист
+            boolean isEqual = q.equals(matching);
+            if (isEqual) {
+                tmp.add(item);
             }
         }
         result = new ArrayList<>(tmp);
@@ -92,16 +97,4 @@ public class TaskManager {
                 .sorted().collect(Collectors.toList());
     }
 
-    public Collection<Task> filterByAssignee(String query) {
-        Set<Task> tmp = new HashSet<>();
-        List<Task> result;
-        for (Task item : getAll()) {
-            if (item.getAssignee().stream().anyMatch(a -> a.equalsIgnoreCase(query))) {
-                tmp.add(item);
-            }
-        }
-        result = new ArrayList<>(tmp);
-        Collections.sort(result);
-        return result;
-    }
 }

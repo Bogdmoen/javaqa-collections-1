@@ -64,7 +64,7 @@ public class TaskManagerEmptyTest {
 
         @Test
         public void shouldGetNoneLabel() {
-            Collection<Task> actual = manager.filterByLabel("one", "three", "five");
+            Collection<Task> actual = manager.filterBy("label","one", "three", "five");
             Collection<Task> expected = List.of();
 
             assertEquals(expected, actual);
@@ -89,7 +89,7 @@ public class TaskManagerEmptyTest {
 
         @Test
         public void shouldReturnNone() {
-            Collection<Task> actual = manager.filterByAssignee("asdf");
+            Collection<Task> actual = manager.filterBy("assignee","asdf");
             Collection<Task> expected = List.of();
 
             assertEquals(expected, actual);
