@@ -20,6 +20,7 @@ public class TaskManagerTest {
     Task fifth = new Task(5, "Task5", "ann", Set.of("mike", "ann"), Set.of("one", "two", "four", "five"), false);
     Task sixth = new Task(25, "Task25", "john", Set.of("mike", "jim"), Set.of("one", "two", "double", "five"), false);
     Task seventh = new Task(9, "Task9", "john", Set.of("peter", "jim"), Set.of("one", "two", "seven", "five"), false);
+    Task eigth = new Task(15, "Task11", "mike", Set.of("jim", "ann"), Set.of("one"), true);
 
     @Nested
     public class addRemove {
@@ -102,8 +103,8 @@ public class TaskManagerTest {
 
         @Test
         public void shouldGetLabel() {
-            Collection<Task> actual = manager.filterBy("label", "one");
-            Collection<Task> expected = List.of(first, second, third, forth, fifth);
+            Collection<Task> actual = manager.filterBy("label", "one", "two", "three");
+            Collection<Task> expected = List.of(second);
 
             assertEquals(expected, actual);
             System.out.println(actual);
@@ -112,7 +113,7 @@ public class TaskManagerTest {
         @Test
         public void shouldGetSomeLabel() {
             Collection<Task> actual = manager.filterBy("label", "one", "two");
-            Collection<Task> expected = List.of(first, second, third, fifth);
+            Collection<Task> expected = List.of(first);
 
             assertEquals(expected, actual);
             System.out.println(actual);
@@ -146,7 +147,7 @@ public class TaskManagerTest {
         }
 
         @Test void shouldGetEmptyListWithWrongType() {
-            Collection<Task> actual = manager.filterBy("l",  "six");
+            Collection<Task> actual = manager.filterBy("label",  "six");
             Collection<Task> expected = List.of();
 
             assertEquals(expected, actual);
@@ -194,13 +195,13 @@ public class TaskManagerTest {
 
         @BeforeEach
         public void setUp() {
-            manager.addTasks(List.of(first, second, third, forth, fifth, sixth, seventh));
+            manager.addTasks(List.of(first, second, third, forth, fifth, sixth, seventh, eigth));
         }
 
         @Test
         public void shouldReturnOne() {
 
-            Collection<Task> actual = manager.filterBy("assignee", "peter");
+            Collection<Task> actual = manager.filterBy("assignee", "peter", "jim");
             Collection<Task> expected = List.of(seventh);
 
             assertEquals(expected, actual);
@@ -219,7 +220,7 @@ public class TaskManagerTest {
         public void shouldReturnSeveral() {
 
             Collection<Task> actual = manager.filterBy("assignee","jim", "ann");
-            Collection<Task> expected = List.of(first, forth);
+            Collection<Task> expected = List.of(forth, eigth);
 
             assertEquals(expected, actual);
         }
